@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'diary',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sleepee',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': '1111',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
