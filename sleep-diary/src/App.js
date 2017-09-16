@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
 import {
   BrowserRouter,
   Route,
@@ -90,18 +89,7 @@ class Main extends Component {
 
 
   render() {
-    const PrivateRoute = ({ component: Component, ...rest }) => (
-      <Route {...rest} render={props => (
-        fakeAuth.isAuthenticated ? (
-          <Component {...props}/>
-        ) : (
-          <Redirect to={{
-            pathname: '/login',
-            state: { from: props.location }
-          }}/>
-        )
-      )}/>
-    )
+
 
     return fakeAuth.isAuthenticated ? <div>authenticated</div> : <div> login first </div>
   }
@@ -131,6 +119,19 @@ class Navbar extends Component {
     // );
   }
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
 
 const Diary = () => {
   return (
