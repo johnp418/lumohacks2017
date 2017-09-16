@@ -12,4 +12,7 @@ class DiaryViewSet(viewsets.ViewSet):
 		return Response(serializer.data)
 
 	def retrieve(self, request, pk):
-		
+		queryset = Diary.objects.get(id=pk)
+		serializer = DiarySerializer(queryset)
+		return Response(serializer.data)
+	
