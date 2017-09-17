@@ -1,6 +1,7 @@
 # Django settings
 settings.py
 sleepee/diary/migrations/*
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

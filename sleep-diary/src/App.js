@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
 import ReactDataGrid from 'react-data-grid';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import DiaryForm from './components/DiaryForm';
 
 // const config = {
 //   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
@@ -233,7 +234,7 @@ class Chart extends Component {
     return (
       <LineChart width={730} height={250} data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 20 }}>
-        <XAxis label="Date" interval="preserveStartEnd" name="Date" dataKey="date" tickFormatter={dateFormatter} scale="auto"/>
+        <XAxis label="Date" interval="preserveStartEnd" name="Date" dataKey="date" scale="auto"/>
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
@@ -243,7 +244,6 @@ class Chart extends Component {
         <Line type="monotone" name="Time out of bed" dataKey="outOfBedTime" stroke="#c9c9ff" />
       </LineChart>
     );
-    
   }
 }
 
@@ -258,6 +258,7 @@ class App extends Component {
         <Navbar></Navbar>
         <Route exact path="/" component={Welcome}/>
         <Route path="/login" component={LoginPage}/>
+        <Route path="/form" component={DiaryForm}/>
         {/* <PrivateRoute path='/entry' component={Entry}/> */}
         <PrivateRoute path="/diary" component={DiaryTable}/>
         <PrivateRoute path="/chart" component={Chart}/>

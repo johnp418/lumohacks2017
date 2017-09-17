@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 class Diary(models.Model):
@@ -22,3 +26,20 @@ class Nap(models.Model):
 
 	def __str__(self):
 		return str(self.id)
+
+# @receiver(post_save, sender=User)
+class Patient(models.Model):
+	user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+	dateJoined = models.DateTimeField(auto_now_add=True)
+	underPhysician = models.ForeignKey('Physician', blank=True, null=True)
+
+	def __str__(self):
+		return str(self.user.id) + ": " + self.dateJoined.__str__();
+
+# @receiver(post_save, sender=User)
+class Physician(models.Model):
+	user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+	dateJoined = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return str(self.user.id) + ": " + self.dateJoined.__str__();
