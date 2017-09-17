@@ -1,5 +1,4 @@
 # Django settings
-settings.py
 sleepee/diary/migrations/*
 .idea/
 
