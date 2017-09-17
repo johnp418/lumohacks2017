@@ -182,7 +182,7 @@ class DiaryTable extends Component {
         rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.diaries.length}
         minHeight={500} />
-    )
+    );
   }
 }
 
