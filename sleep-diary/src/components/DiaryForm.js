@@ -12,7 +12,6 @@ import TimePicker from "rc-time-picker";
 import Datetime from "react-datetime";
 import "../styles/index.css";
 import "../styles/react-datetime.css";
-
 class DiaryForm extends Component {
   constructor() {
     super();
@@ -45,17 +44,14 @@ class DiaryForm extends Component {
       comment: "yolo"
     };
   }
-
   onSubmit(e) {
     e.preventDefault();
     console.log("sending data ", this.state);
-
     const formData = Object.assign({}, this.state);
     const nap = { startTime: this.state.napStart, endTime: this.state.napEnd };
     delete formData.napStart;
     delete formData.napEnd;
     formData.nap = nap;
-
     fetch("http://localhost:8000/diaries", {
       method: "POST",
       headers: {
@@ -70,12 +66,11 @@ class DiaryForm extends Component {
       }
     });
   }
-
   render() {
     return (
       <Form>
-        <FormGroup>
-          <ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">
             Enter the time and duration of any naps you took today
           </ControlLabel>
           Start:
@@ -93,29 +88,29 @@ class DiaryForm extends Component {
             }}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">
             Did you take any medication to help you sleep? If so, what did you
             take and when?
           </ControlLabel>
           <FormControl className="medication" type="text" />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>What time did you get into bed?</ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">What time did you get into bed?</ControlLabel>
           <Datetime
             className="bedTime"
             onChange={x => this.setState({ bedTime: x.toISOString() })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>What time did you try to go to sleep?</ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">What time did you try to go to sleep?</ControlLabel>
           <Datetime
             className="sleepTime"
             onChange={x => this.setState({ sleepTime: x.toISOString() })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">
             How long did it take you to fall asleep(hh:mm:ss)?
           </ControlLabel>
           <TimePicker
@@ -125,8 +120,8 @@ class DiaryForm extends Component {
               this.setState({ sleepAttemptDuration: value.format("HH:mm:ss") })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>In total, how long did you sleep?</ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">In total, how long did you sleep?</ControlLabel>
           <TimePicker
             showSecond={true}
             className="sleepDuration"
@@ -134,23 +129,23 @@ class DiaryForm extends Component {
               this.setState({ sleepDuration: value.format("HH:mm:ss") })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>How many times awaek?</ControlLabel>
+        <FormGroup className="form-group row">
+          <label className="col-6 col-form-label">How many times awaken?</label>
           <FormControl
-            className="awakeFrequency"
+            className="col-6 col-form-label awakeFrequency"
             type="number"
             onChange={e => this.setState({ awakeFrequency: e.target.value })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>What time was your final awakening?</ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">What time was your final awakening?</ControlLabel>
           <Datetime
             className="awakeTime"
             onChange={x => this.setState({ awakeTime: x.toISOString() })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">
             What time did you get out of bed for the day?
           </ControlLabel>
           <Datetime
@@ -158,14 +153,13 @@ class DiaryForm extends Component {
             onChange={x => this.setState({ outOfBedTime: x.toISOString() })}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>Comments (if applicable)</ControlLabel>
+        <FormGroup className="form-group row">
+          <ControlLabel className="col-6 col-form-label">Comments (if applicable)</ControlLabel>
           <FormControl className="comments" type="text" />
         </FormGroup>
-        <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
+        <Button className="btn btn-primary btn-lg btn-block" onClick={this.onSubmit.bind(this)}>Submit</Button>
       </Form>
     );
   }
 }
-
 export default DiaryForm;

@@ -49,7 +49,7 @@ class DiaryTable extends Component {
 
   render() {
     return (
-      <ReactTable data={this.props.diaries} columns={this.columns} />
+      <ReactTable className="col-6" data={this.props.diaries} columns={this.columns} />
     );
   }
 }

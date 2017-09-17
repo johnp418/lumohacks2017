@@ -18,9 +18,9 @@ class Dashboard extends Component {
   }
   render() {
     return (
-      <div>
-        <DiaryTable diaries={this.state.diaries}></DiaryTable>
+      <div className="row">
         <Chart diaries={this.state.diaries}></Chart>
+        <DiaryTable diaries={this.state.diaries}></DiaryTable>
       </div>
     );
   }

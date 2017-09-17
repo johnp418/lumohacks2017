@@ -55,13 +55,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light nav-bottom">
+      <Link className="navbar-brand mr-auto" to="/">
         SleepDiary
       </Link>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <Link to="/login">Sign in</Link>
-      </div>
+      <ul className="nav justify-content-end">
+        <li className="nav-item">
+          <Link className="nav-link" to="/dashboard"> Dashboard </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/form"> Add diary </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/login"> Sign in </Link>
+        </li>
+      </ul>
     </nav>
   );
 };
@@ -108,7 +116,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className="">
         <Navbar />
         <Route exact path="/" component={Welcome} />
         <Route path="/login" component={LoginPage} />
