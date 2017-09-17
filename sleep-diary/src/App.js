@@ -234,6 +234,10 @@ class Chart extends Component {
       {
         field: 'sale',
         name: 'Sale',
+      },
+      {
+        field: 'yolo',
+        name: 'YOLO'
       }
     ],
     // your x accessor
@@ -242,27 +246,20 @@ class Chart extends Component {
       return d.sale;
     },
     y = (d) => {
+      console.log('yy = d', d);
       return d.year;
     };
 
     var data = [{
         "sale": 202,
-        "year": "2000"
-    }, {
-        "sale": 215,
-        "year": "2001"
-    }, {
-        "sale": 179,
-        "year": "2002"
-    }, {
-        "sale": 199,
-        "year": "2003"
-      }
+        "year": "2000",
+        "yolo": 132
+    },
     ];
     let xLabel = 'Date';
     let yLabel = 'Time';
     let xDomain = d3.extent(data, x);
-    let yDomain = d3.extent(data, (y) => { return parseInt( y.year )});
+    // let yDomain = d3.extent(data, y);
 
     return (
       <LineChart
@@ -273,15 +270,16 @@ class Chart extends Component {
        margins= {margins}
        chartSeries= {chartSeries}
        x= {x}
-      xDomain= {xDomain}
+      // xDomain= {xDomain}
       xLabel = {xLabel}
       y= {y}
-      yDomain= {yDomain}
-      yLabel = {yLabel}
+      // yDomain= {yDomain}
+      // yLabel = {yLabel}
      />
     )
   }
 }
+
 
 class App extends Component {
   constructor(props) {
