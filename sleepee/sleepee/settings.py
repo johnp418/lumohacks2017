@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'diary',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'sleepee.urls'
@@ -79,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sleepee',
-        'USER': 'postgres',
-        'PASSWORD': '1111',
+        'USER': 'johnpark',
+        'PASSWORD': 'johnpark',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -126,3 +128,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Custom settings
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000'
+)

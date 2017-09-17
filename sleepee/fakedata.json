@@ -1,0 +1,16 @@
+[
+  {
+    "model": "diary.diary",
+    "id": 10,
+    "date": "2017-09-16",
+    "bedTime": "22:37:20",
+    "sleepTime": "22:37:20",
+    "sleepAtteptDuration": "00:00:30",
+    "awakeFrequency": 0,
+    "sleepDuration": "00:01:00",
+    "awakeTime": "22:37:30",
+    "outOfBedTime": "22:37:30",
+    "comment": "hi there",
+    "nap": null
+  }
+]
