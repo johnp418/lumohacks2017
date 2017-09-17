@@ -23,23 +23,33 @@ class Diary(models.Model):
 class Nap(models.Model):
 	startTime = models.TimeField('start time')
 	endTime = models.TimeField('end time')
-
 	def __str__(self):
 		return str(self.id)
 
-# @receiver(post_save, sender=User)
 class Patient(models.Model):
-	user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	dateJoined = models.DateTimeField(auto_now_add=True)
 	underPhysician = models.ForeignKey('Physician', blank=True, null=True)
 
 	def __str__(self):
-		return str(self.user.id) + ": " + self.dateJoined.__str__();
+		return str(self.user.id) + ": " + self.dateJoined.__str__()
+
+
+@receiver(post_save, sender=User)
+def create_patient(sender, instance, created, **kwargs):
+	# print("print")
+	# print("helloworld")
+	# print("ea")
+    if created:
+        Patient.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_patient(sender, instance, **kwargs):
+#     instance.profile.save()
 
 # @receiver(post_save, sender=User)
 class Physician(models.Model):
-	user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	dateJoined = models.DateTimeField(auto_now_add=True)
-
 	def __str__(self):
 		return str(self.user.id) + ": " + self.dateJoined.__str__();
