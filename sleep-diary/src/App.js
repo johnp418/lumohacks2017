@@ -1,22 +1,15 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
 import ReactDataGrid from 'react-data-grid';
-// import 'node_modules/bootstrap/dist/css/bootstrap.css';
 
-const config = {
-  apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
-  authDomain: "sleepee-6d1c4.firebaseapp.com",
-  databaseURL: "https://sleepee-6d1c4.firebaseio.com",
-  projectId: "sleepee-6d1c4",
-  storageBucket: "sleepee-6d1c4.appspot.com",
-  messagingSenderId: "1081598159008"
-};
-
-////////////////////////////////////////////////////////////
-// 1. Click the public page
-// 2. Click the protected page
-// 3. Log in
-// 4. Click the back button, note the URL each time
+// const config = {
+//   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
+//   authDomain: "sleepee-6d1c4.firebaseapp.com",
+//   databaseURL: "https://sleepee-6d1c4.firebaseio.com",
+//   projectId: "sleepee-6d1c4",
+//   storageBucket: "sleepee-6d1c4.appspot.com",
+//   messagingSenderId: "1081598159008"
+// };
 
 class LoginPage extends Component {
   state = {
@@ -95,28 +88,7 @@ class DiaryTable extends Component {
   state = {
     diaries: [],
     originalDiaries: [],
-    // [
-    //   {
-    //     "model": "diary.diary",
-    //     "id": 10,
-    //     "date": "2017-09-16",
-    //     "bedTime": "22:37:20",
-    //     "sleepTime": "22:37:20",
-    //     "sleepAtteptDuration": "00:00:30",
-    //     "awakeFrequency": 0,
-    //     "sleepDuration": "00:01:00",
-    //     "awakeTime": "22:37:30",
-    //     "outOfBedTime": "22:37:30",
-    //     "comment": "hi there",
-    //     "nap": null
-    //   }
-    // ]
     columns: [
-      {
-        key: 'id',
-        name: 'ID',
-        locked: true
-      },
       {
         key: 'date',
         name: 'Date',
@@ -136,7 +108,7 @@ class DiaryTable extends Component {
         sortable: true
       },
       {
-        key: 'sleepAtteptDuration',
+        key: 'sleepAttemptDuration',
         name: 'How long it took to fall sleep',
         width: 200,
         sortable: true
@@ -168,16 +140,14 @@ class DiaryTable extends Component {
     ]
   };
   componentDidMount() {
-    // fetch('http://localhost:8000/diaries',  { accept: 'application/json', })
-    //   .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then((originalDiaries) => {
-    //     console.log('data from server', diaries);
-    //     const diaries = originalDiaries.slice(0);
-    //     // Store the original rows array, and make a copy that can be used for modifying eg.filtering, sorting
-    //     this.setState({ originalDiaries, diaries });
-    //   });
+    fetch('http://localhost:8000/diaries',  { accept: 'application/json', })
+      .then((res) => {
+        res.json().then((originalDiaries) => {
+          console.log('data from server', originalDiaries);
+          const diaries = originalDiaries.slice(0);
+          this.setState({ originalDiaries, diaries });
+        });
+      });
   }
 
   handleGridSort(sortColumn, sortDirection) {
@@ -193,28 +163,21 @@ class DiaryTable extends Component {
   }
 
   rowGetter(i) {
+    console.log(this.state);
     return this.state.diaries[i];
   }
 
   render() {
-    return <div>rempty</div>
-    // if (!this.user.filedTodayEntry) {
-    //   <Redirect to={{
-    //     pathname: '/login',
-    //     state: {
-    //       from: props.location
-    //     }
-    //   }}/>
-    // }
-    // TODO: If user didn'
-    if (this.state.diaries.length === 0) {
+
+    // // TODO: If user didn'
+    if (!this.state) {
       return <div> No diaries yet </div>;
     }
     return (
       <ReactDataGrid
         onGridSort={this.handleGridSort}
         columns={this.state.columns}
-        rowGetter={this.rowGetter}
+        rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.diaries.length}
         minHeight={500} />
     )
@@ -247,16 +210,6 @@ const Welcome = () => {
 class App extends Component {
   constructor(props) {
     super(props);
-    fetch('http://localhost:8000/diaries',  { accept: 'application/json', })
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      }).then((originalDiaries) => {
-        console.log('data from server', diaries);
-        const diaries = originalDiaries.slice(0);
-        // Store the original rows array, and make a copy that can be used for modifying eg.filtering, sorting
-        // this.setState({ originalDiaries, diaries });
-      });
   }
   render() {
     return (
