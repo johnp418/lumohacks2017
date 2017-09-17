@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import { Form, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Button
+} from "react-bootstrap";
 
 import moment from "moment";
-import 'rc-time-picker/assets/index.css';
+import "rc-time-picker/assets/index.css";
 import TimePicker from "rc-time-picker";
 
 import "../styles/index.css";
@@ -13,8 +19,9 @@ class App extends Component {
     super();
 
     this.state = {
-      nap: "",
-      date: "",
+      napStart: "",
+      napEnd: "",
+      date: moment().format("L"),
       bedTime: "",
       sleepTime: "",
       sleepAttemptDuration: "",
@@ -34,14 +41,16 @@ class App extends Component {
           Start:
           <TimePicker
             showSecond={true}
-            defaultValue={moment()}
             className="nap-start"
+            onChange={value =>
+              this.setState({ napStart: value.format("HH:mm:ss") })}
           />
           End
           <TimePicker
             showSecond={true}
-            defaultValue={moment()}
             className="nap-end"
+            onChange={value =>
+              this.setState({ napEnd: value.format("HH:mm:ss") })}
           />
         </FormGroup>
         <FormGroup>
@@ -53,43 +62,46 @@ class App extends Component {
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you get into bed?</ControlLabel>
-            <TimePicker
-              showSecond={true}
-              defaultValue={moment()}
-              className="bedTime"
-            />
+          <TimePicker
+            showSecond={true}
+            className="bedTime"
+            onChange={value =>
+              this.setState({ bedTime: value.format("HH:mm:ss") })}
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you try to go to sleep?</ControlLabel>
-            <TimePicker
-              showSecond={true}
-              defaultValue={moment()}
-              className="sleepTime"
-            />
+          <TimePicker
+            showSecond={true}
+            className="sleepTime"
+            onChange={value =>
+              this.setState({ sleepTime: value.format("HH:mm:ss") })}
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>How long did it take you to fall asleep?</ControlLabel>
-            <TimePicker
-              showSecond={true}
-              defaultValue={moment()}
-              className="sleepAttemptDuration"
-            />
+          <TimePicker
+            showSecond={true}
+            className="sleepAttemptDuration"
+            onChange={value =>
+              this.setState({ sleepAttemptDuration: value.format("HH:mm:ss") })}
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>In total, how long did you sleep?</ControlLabel>
-            <TimePicker
-              showSecond={true}
-              defaultValue={moment()}
-              className="sleepDuration"
-            />
+          <TimePicker
+            showSecond={true}
+            className="sleepDuration"
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time was your final awakening?</ControlLabel>
-            <TimePicker
-              showSecond={true}
-              defaultValue={moment()}
-              className="awakeTime"
-            />
+          <TimePicker
+            showSecond={true}
+            className="awakeTime"
+            onChange={value =>
+              this.setState({ awakeTime: value.format("HH:mm:ss") })}
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>
@@ -97,14 +109,16 @@ class App extends Component {
           </ControlLabel>
           <TimePicker
             showSecond={true}
-            defaultValue={moment()}
             className="outOfBedTime"
+            onChange={value =>
+              this.setState({ outOfBedTime: value.format("HH:mm:ss") })}
           />
         </FormGroup>
         <FormGroup>
           <ControlLabel>Comments (if applicable)</ControlLabel>
           <FormControl className="comments" type="text" />
         </FormGroup>
+        <Button onClick={e => console.log(this.state)}>Submit</Button>
       </Form>
     );
   }
