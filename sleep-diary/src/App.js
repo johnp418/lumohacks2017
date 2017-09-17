@@ -66,8 +66,14 @@ const Navbar = () => {
 };
 
 const Welcome = () => {
-  return <div>welcome</div>;
-};
+  return (
+    <div>
+      welcome
+    </div>
+  )
+}
+
+
 
 class App extends Component {
   constructor(props) {
