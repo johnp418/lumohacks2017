@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
 import ReactDataGrid from 'react-data-grid';
-import * as d3 from 'd3';
-import { LineChart } from 'react-d3-basic';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 // const config = {
 //   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
@@ -215,70 +214,36 @@ class Chart extends Component {
   //   super();
   // }
   render() {
-    // your date format, use for parsing
-  var parseDate = d3.time.format("%YM%m").parse;
-
-  var width = 700,
-    height = 300,
-    margins = {left: 100, right: 100, top: 50, bottom: 50},
-    // chart series,
-    // field: is what field your data want to be selected
-    // name: the name of the field that display in legend
-    // color: what color is the line
-    chartSeries = [
-      {
-        field: 'year',
-        name: 'Year'
-      },
-      {
-        field: 'sale',
-        name: 'Sale',
-      }
-    ],
-    // your x accessor
-    x = function(d) {
-      console.log('d in dx', d);
-      return d.sale;
-    },
-    y = (d) => {
-      return d.year;
-    };
-
-    var data = [{
-        "sale": 202,
-        "year": "2000"
-    }, {
-        "sale": 215,
-        "year": "2001"
-    }, {
-        "sale": 179,
-        "year": "2002"
-    }, {
-        "sale": 199,
-        "year": "2003"
-      }
+    const data = [
+        {
+            "date": "2017-09-16",
+            "bedTime": 102938740,
+            "sleepTime": 1010986,
+            "awakeTime": 1298309,
+            "outOfBedTime": 102983089,
+        },
+        {
+            "date": "2017-09-17",
+            "bedTime": 129837489,
+            "sleepTime": 18937809,
+            "awakeTime": 120893509,
+            "outOfBedTime": 1908089,
+        }
     ];
-    let xLabel = 'Date';
-    let yLabel = 'Time';
-    let xDomain = d3.extent(data, x);
-    let yDomain = d3.extent(data, (y) => { return parseInt( y.year )});
-
     return (
-      <LineChart
-       title= "TEAE"
-       data= {data}
-       width= {width}
-       height= {height}
-       margins= {margins}
-       chartSeries= {chartSeries}
-       x= {x}
-      xDomain= {xDomain}
-      xLabel = {xLabel}
-      y= {y}
-      yDomain= {yDomain}
-      yLabel = {yLabel}
-     />
-    )
+      <LineChart width={730} height={250} data={data}
+        margin={{ top: 5, right: 30, left: 20, bottom: 20 }}>
+        <XAxis label="Date" interval="preserveStartEnd" name="Date" dataKey="date" tickFormatter={dateFormatter} scale="auto"/>
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" name="Time went to bed" dataKey="bedTime" stroke="#ee6363" />
+        <Line type="monotone" name="Time slept" dataKey="sleepTime" stroke="#ff93ac" />
+        <Line type="monotone" name="Awaken time" dataKey="awakeTime" stroke="#cfce9" />
+        <Line type="monotone" name="Time out of bed" dataKey="outOfBedTime" stroke="#c9c9ff" />
+      </LineChart>
+    );
+    
   }
 }
 
