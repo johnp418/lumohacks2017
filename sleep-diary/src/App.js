@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
 import ReactDataGrid from 'react-data-grid';
+import * as d3 from 'd3';
+import { LineChart } from 'react-d3-basic';
 
 // const config = {
 //   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
@@ -175,7 +177,7 @@ class DiaryTable extends Component {
     }
     return (
       <ReactDataGrid
-        onGridSort={this.handleGridSort}
+        onGridSort={this.handleGridSort.bind(this)}
         columns={this.state.columns}
         rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.diaries.length}
@@ -207,9 +209,83 @@ const Welcome = () => {
   )
 }
 
+// http://www.reactd3.org/docs/basic/#line_multiple
+class Chart extends Component {
+  // constructor() {
+  //   super();
+  // }
+  render() {
+    // your date format, use for parsing
+  var parseDate = d3.time.format("%YM%m").parse;
+
+  var width = 700,
+    height = 300,
+    margins = {left: 100, right: 100, top: 50, bottom: 50},
+    // chart series,
+    // field: is what field your data want to be selected
+    // name: the name of the field that display in legend
+    // color: what color is the line
+    chartSeries = [
+      {
+        field: 'year',
+        name: 'Year'
+      },
+      {
+        field: 'sale',
+        name: 'Sale',
+      }
+    ],
+    // your x accessor
+    x = function(d) {
+      console.log('d in dx', d);
+      return d.sale;
+    },
+    y = (d) => {
+      return d.year;
+    };
+
+    var data = [{
+        "sale": 202,
+        "year": "2000"
+    }, {
+        "sale": 215,
+        "year": "2001"
+    }, {
+        "sale": 179,
+        "year": "2002"
+    }, {
+        "sale": 199,
+        "year": "2003"
+      }
+    ];
+    let xLabel = 'Date';
+    let yLabel = 'Time';
+    let xDomain = d3.extent(data, x);
+    let yDomain = d3.extent(data, (y) => { return parseInt( y.year )});
+
+    return (
+      <LineChart
+       title= "TEAE"
+       data= {data}
+       width= {width}
+       height= {height}
+       margins= {margins}
+       chartSeries= {chartSeries}
+       x= {x}
+      xDomain= {xDomain}
+      xLabel = {xLabel}
+      y= {y}
+      yDomain= {yDomain}
+      yLabel = {yLabel}
+     />
+    )
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
+
   }
   render() {
     return (
@@ -219,7 +295,7 @@ class App extends Component {
         <Route path="/login" component={LoginPage}/>
         {/* <PrivateRoute path='/entry' component={Entry}/> */}
         <PrivateRoute path="/diary" component={DiaryTable}/>
-        {/* <PrivateRoute path="/chart" component={Chart}/> */}
+        <PrivateRoute path="/chart" component={Chart}/>
       </div>
     );
   }

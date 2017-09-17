@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
+    "react-d3-basic": "^1.6.11",
     "react-data-grid": "^2.0.59",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2"
