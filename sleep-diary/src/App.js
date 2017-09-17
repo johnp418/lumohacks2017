@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import './styles/App.css';
-import {
-  BrowserRouter,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router-dom'
+import React, {Component} from 'react';
+import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
+import * as firebase from 'firebase';
+
+const config = {
+  apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
+  authDomain: "sleepee-6d1c4.firebaseapp.com",
+  databaseURL: "https://sleepee-6d1c4.firebaseio.com",
+  projectId: "sleepee-6d1c4",
+  storageBucket: "sleepee-6d1c4.appspot.com",
+  messagingSenderId: "1081598159008"
+};
 
 ////////////////////////////////////////////////////////////
 // 1. Click the public page
@@ -14,22 +17,58 @@ import {
 // 3. Log in
 // 4. Click the back button, note the URL each time
 
-// const AuthExample = () => (
-//     <div>
-//       <AuthButton/>
-//       <ul>
-//         <li><Link to="/public">Public Page</Link></li>
-//         <li><Link to="/protected">Protected Page</Link></li>
-//       </ul>
-//       <Route path="/public" component={Public}/>
-//       <Route path="/login" component={Login}/>
-//       <PrivateRoute path="/" component={Protected}/>
-//     </div>
-//     <Navbar></Navbar>
-// )
+class LoginPage extends Component {
+  state = {
+    redirectToReferrer: false
+  }
+
+  login = () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      console.log(result);
+
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+      // this.setState({redirectToReferrer: true})
+    });
+    // fakeAuth.authenticate(() => {
+    //   this.setState({redirectToReferrer: true})
+    // })
+  }
+
+  render() {
+    const {from} = this.props.location.state || {
+      from: {
+        pathname: '/'
+      }
+    }
+    const {redirectToReferrer} = this.state
+
+    if (redirectToReferrer) {
+      return (<Redirect to={from}/>)
+    }
+
+    return (
+    // TODO: Login Page < div > login page here
+      <button onClick={ this.login }> Log in </button>
+    );
+  }
+}
 
 const fakeAuth = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authenticate(cb) {
     this.isAuthenticated = true
     setTimeout(cb, 100) // fake async
@@ -40,111 +79,73 @@ const fakeAuth = {
   }
 }
 
-const Public = () => <h3>Public</h3>
-const Protected = () => <h3>Protected</h3>
-
-class Login extends Component {
-  state = {
-    redirectToReferrer: false
-  }
-
-  login = () => {
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true })
-    })
-  }
-
-  render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
-
-    if (redirectToReferrer) {
-      return (
-        <Redirect to={from}/>
-      )
-    }
-
-    return (
-      // TODO: Login Page
-      <div>
-        <button onClick={this.login}>Log in</button>
-      </div>
-    )
-  }
-}
-
-class Main extends Component {
-  // const AuthButton = withRouter(({ history }) => (
-  //   fakeAuth.isAuthenticated ? (
-  //     <p>
-  //       Welcome! <button onClick={() => {
-  //         fakeAuth.signout(() => history.push('/'))
-  //       }}>Sign out</button>
-  //     </p>
-  //   ) : (
-  //     <Login></Login>
-  //   )
-  // ))
-
-
-
-  render() {
-
-
-    return fakeAuth.isAuthenticated ? <div>authenticated</div> : <div> login first </div>
-  }
-
-}
-
-class Navbar extends Component {
-  render() {
-    return (
-      <div>Navbar here</div>
-    )
-    // return (
-    //   <div>
-    //     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    //       <a class="navbar-brand" href="#">SleepDiary</a>
-    //       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    //         <span class="navbar-toggler-icon"></span>
-    //       </button>
-    //
-    //       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    //         <form class="form-inline my-2 my-lg-0">
-    //           <Login></Login>
-    //         </form>
-    //       </div>
-    //     </nav>
-    //   </div>
-    // );
-  }
-}
-
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    fakeAuth.isAuthenticated ? (
-      <Component {...props}/>
-    ) : (
-      <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }}/>
-    )
-  )}/>
+  <Route {...rest} render={props => (fakeAuth.isAuthenticated
+    ? (<Component {...props}/>)
+    : (<Redirect to={{
+      pathname: '/login',
+      state: {
+        from: props.location
+      }
+    }}/>))}/>
 )
 
-const Diary = () => {
+class Diary extends Component {
+  // state = {
+  //
+  // };
+  componentDidMount() {
+    fetch('diaries',  { accept: 'application/json', })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('data from server', data);
+      });
+  }
+
+  render() {
+    return (
+      <div>Diary</div>
+    )
+  }
+}
+
+const Navbar = () => {
   return (
-    <div>Diary</div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <Link className='navbar-brand' to='/'>
+          SleepDiary
+        </Link>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <Link to="/login">
+          Sign in
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
+const Welcome = () => {
+  return (
+    <div>
+      welcome
+    </div>
   )
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    firebase.initializeApp(config);
+  }
   render() {
     return (
-      <div>
-        <Route path="/" component={Main}/>
-        <Route path="/login" component={Login}/>
+      <div className='container'>
+        <Navbar></Navbar>
+        <Route exact path="/" component={Welcome}/>
+        <Route path="/login" component={LoginPage}/>
         <PrivateRoute path="/diary" component={Diary}/>
       </div>
     );

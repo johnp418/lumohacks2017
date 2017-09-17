@@ -6,7 +6,7 @@ class Diary(models.Model):
 	date = models.DateField('Date')
 	bedTime = models.TimeField('Time getting into bed')
 	sleepTime = models.TimeField('Time trying to go to sleep')
-	sleepAtteptDuration = models.DurationField()
+	sleepAttemptDuration = models.DurationField()
 	awakeFrequency = models.IntegerField()
 	sleepDuration = models.DurationField()
 	awakeTime = models.TimeField('Awake time')
@@ -14,7 +14,7 @@ class Diary(models.Model):
 	comment = models.CharField(max_length=300, blank=True, null=True)
 
 	def __str__(self):
-		return self.date.__str__()
+		return str(self.id) + ":  " + self.date.__str__()
 
 class Nap(models.Model):
 	startTime = models.TimeField('start time')
