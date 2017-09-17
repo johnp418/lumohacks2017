@@ -6,7 +6,7 @@ class Diary(models.Model):
 	date = models.DateField('Date')
 	bedTime = models.TimeField('Time getting into bed')
 	sleepTime = models.TimeField('Time trying to go to sleep')
-	sleepAtteptDuration = models.DurationField()
+	sleepAttemptDuration = models.DurationField()
 	awakeFrequency = models.IntegerField()
 	sleepDuration = models.DurationField()
 	awakeTime = models.TimeField('Awake time')
