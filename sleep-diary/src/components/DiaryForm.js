@@ -28,13 +28,13 @@ class DiaryForm extends Component {
     //   outOfBedTime: "",
     //   comment: ""
     // };
-    console.log(moment().format('YYYY-MM-DD'));
+    console.log(moment().format("YYYY-MM-DD"));
     this.state = {
       nap: {
         startTime: "2017-09-17T07:00:00.000Z",
         endTime: "2017-09-18T07:00:00.000Z"
       },
-      date: moment().format('YYYY-MM-DD'),
+      date: moment().format("YYYY-MM-DD"),
       bedTime: "2017-09-18T07:00:00.000Z",
       sleepTime: "2017-09-19T07:00:00.000Z",
       sleepDuration: "01:00:10",
@@ -48,7 +48,7 @@ class DiaryForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log('sending data ', this.state);
+    console.log("sending data ", this.state);
 
     const formData = Object.assign({}, this.state);
     const nap = { startTime: this.state.napStart, endTime: this.state.napEnd };
@@ -59,16 +59,16 @@ class DiaryForm extends Component {
     fetch("http://localhost:8000/diaries", {
       method: "POST",
       headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(this.state) })
-    .then((response) => {
+      body: JSON.stringify(this.state)
+    }).then(response => {
       console.log(response);
       if (response.status === 201) {
-        console.log(' created ');
+        console.log(" created ");
       }
-    })
+    });
   }
 
   render() {
@@ -133,15 +133,15 @@ class DiaryForm extends Component {
             onChange={value =>
               this.setState({ sleepDuration: value.format("HH:mm:ss") })}
           />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>How many times awaek?</ControlLabel>
-            <FormControl
-              className="awakeFrequency"
-              type="number"
-              onChange={e => this.setState({ awakeFrequency: e.target.value })}
-            />
-          </FormGroup>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>How many times awaek?</ControlLabel>
+          <FormControl
+            className="awakeFrequency"
+            type="number"
+            onChange={e => this.setState({ awakeFrequency: e.target.value })}
+          />
+        </FormGroup>
         <FormGroup>
           <ControlLabel>What time was your final awakening?</ControlLabel>
           <Datetime
