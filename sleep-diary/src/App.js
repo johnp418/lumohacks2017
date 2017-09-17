@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom'
-import * as firebase from 'firebase';
+import ReactDataGrid from 'react-data-grid';
+// import 'node_modules/bootstrap/dist/css/bootstrap.css';
 
 const config = {
   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
@@ -23,29 +24,29 @@ class LoginPage extends Component {
   }
 
   login = () => {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      console.log(result);
-
-      // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-      // this.setState({redirectToReferrer: true})
-    });
-    // fakeAuth.authenticate(() => {
-    //   this.setState({redirectToReferrer: true})
-    // })
+    // var provider = new firebase.auth.GoogleAuthProvider();
+    // firebase.auth().signInWithPopup(provider).then((result) => {
+    //   // This gives you a Google Access Token. You can use it to access the Google API.
+    //   var token = result.credential.accessToken;
+    //   // The signed-in user info.
+    //   var user = result.user;
+    //   console.log(result);
+    //
+    //   // ...
+    // }).catch(function(error) {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // The email of the user's account used.
+    //   var email = error.email;
+    //   // The firebase.auth.AuthCredential type that was used.
+    //   var credential = error.credential;
+    //   // ...
+    //   // this.setState({redirectToReferrer: true})
+    // });
+    // // fakeAuth.authenticate(() => {
+    // //   this.setState({redirectToReferrer: true})
+    // // })
   }
 
   render() {
@@ -90,24 +91,132 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }}/>))}/>
 )
 
-class Diary extends Component {
-  // state = {
-  //
-  // };
+class DiaryTable extends Component {
+  state = {
+    diaries: [],
+    originalDiaries: [],
+    // [
+    //   {
+    //     "model": "diary.diary",
+    //     "id": 10,
+    //     "date": "2017-09-16",
+    //     "bedTime": "22:37:20",
+    //     "sleepTime": "22:37:20",
+    //     "sleepAtteptDuration": "00:00:30",
+    //     "awakeFrequency": 0,
+    //     "sleepDuration": "00:01:00",
+    //     "awakeTime": "22:37:30",
+    //     "outOfBedTime": "22:37:30",
+    //     "comment": "hi there",
+    //     "nap": null
+    //   }
+    // ]
+    columns: [
+      {
+        key: 'id',
+        name: 'ID',
+        locked: true
+      },
+      {
+        key: 'date',
+        name: 'Date',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'bedTime',
+        name: 'Went to bed at',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'sleepTime',
+        name: 'Fell asleep',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'sleepAtteptDuration',
+        name: 'How long it took to fall sleep',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'awakeFrequency',
+        name: '# time awaken',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'awakeTime',
+        name: 'Woke up at',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'outOfBedTime',
+        name: 'Got out of bed at',
+        width: 200,
+        sortable: true
+      },
+      {
+        key: 'comment',
+        name: 'Comment',
+        width: 200,
+        sortable: true
+      }
+    ]
+  };
   componentDidMount() {
-    fetch('diaries',  { accept: 'application/json', })
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('data from server', data);
-      });
+    // fetch('http://localhost:8000/diaries',  { accept: 'application/json', })
+    //   .then((response) => {
+    //     console.log(response);
+    //     return response.json();
+    //   }).then((originalDiaries) => {
+    //     console.log('data from server', diaries);
+    //     const diaries = originalDiaries.slice(0);
+    //     // Store the original rows array, and make a copy that can be used for modifying eg.filtering, sorting
+    //     this.setState({ originalDiaries, diaries });
+    //   });
+  }
+
+  handleGridSort(sortColumn, sortDirection) {
+    const comparer = (a, b) => {
+      if (sortDirection === 'ASC') {
+        return (a[sortColumn] > b[sortColumn]) ? 1 : -1;
+      } else if (sortDirection === 'DESC') {
+        return (a[sortColumn] < b[sortColumn]) ? 1 : -1;
+      }
+    };
+    const rows = sortDirection === 'NONE' ? this.state.originalDiaries.slice(0) : this.state.diaries.sort(comparer);
+    this.setState({ diaries:rows });
+  }
+
+  rowGetter(i) {
+    return this.state.diaries[i];
   }
 
   render() {
+    return <div>rempty</div>
+    // if (!this.user.filedTodayEntry) {
+    //   <Redirect to={{
+    //     pathname: '/login',
+    //     state: {
+    //       from: props.location
+    //     }
+    //   }}/>
+    // }
+    // TODO: If user didn'
+    if (this.state.diaries.length === 0) {
+      return <div> No diaries yet </div>;
+    }
     return (
-      <div>Diary</div>
+      <ReactDataGrid
+        onGridSort={this.handleGridSort}
+        columns={this.state.columns}
+        rowGetter={this.rowGetter}
+        rowsCount={this.state.diaries.length}
+        minHeight={500} />
     )
   }
 }
@@ -138,7 +247,16 @@ const Welcome = () => {
 class App extends Component {
   constructor(props) {
     super(props);
-    firebase.initializeApp(config);
+    fetch('http://localhost:8000/diaries',  { accept: 'application/json', })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      }).then((originalDiaries) => {
+        console.log('data from server', diaries);
+        const diaries = originalDiaries.slice(0);
+        // Store the original rows array, and make a copy that can be used for modifying eg.filtering, sorting
+        // this.setState({ originalDiaries, diaries });
+      });
   }
   render() {
     return (
@@ -146,7 +264,9 @@ class App extends Component {
         <Navbar></Navbar>
         <Route exact path="/" component={Welcome}/>
         <Route path="/login" component={LoginPage}/>
-        <PrivateRoute path="/diary" component={Diary}/>
+        {/* <PrivateRoute path='/entry' component={Entry}/> */}
+        <PrivateRoute path="/diary" component={DiaryTable}/>
+        {/* <PrivateRoute path="/chart" component={Chart}/> */}
       </div>
     );
   }
