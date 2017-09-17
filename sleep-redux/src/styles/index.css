@@ -8,10 +8,19 @@ body {
   margin-right: 20px;
 }
 
-.rc-time-picker-input {
-  width: 80px;
+.rdt {
+  display: inline-block;
+  width: 160px;
   text-align: center;
   margin-right: 10px;
+}
+
+.rc-time-picker-input {
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  font-size: 14px;
+  height: 34px;
 }
 
 .medication {

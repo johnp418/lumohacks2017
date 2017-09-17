@@ -11,6 +11,7 @@ import moment from "moment";
 import "rc-time-picker/assets/index.css";
 import TimePicker from "rc-time-picker";
 
+import Datetime from "react-datetime";
 import "../styles/index.css";
 import "../styles/react-datetime.css";
 
@@ -21,9 +22,10 @@ class App extends Component {
     this.state = {
       napStart: "",
       napEnd: "",
-      date: moment().format("L"),
+      date: moment().toISOString(),
       bedTime: "",
       sleepTime: "",
+      sleepDuration: "",
       sleepAttemptDuration: "",
       awakeTime: "",
       outOfBedTime: "",
@@ -39,18 +41,18 @@ class App extends Component {
             Enter the time and duration of any naps you took today
           </ControlLabel>
           Start:
-          <TimePicker
-            showSecond={true}
+          <Datetime
             className="nap-start"
-            onChange={value =>
-              this.setState({ napStart: value.format("HH:mm:ss") })}
+            onChange={x => {
+              this.setState({ napStart: x.toISOString() });
+            }}
           />
-          End
-          <TimePicker
-            showSecond={true}
+          End:
+          <Datetime
             className="nap-end"
-            onChange={value =>
-              this.setState({ napEnd: value.format("HH:mm:ss") })}
+            onChange={x => {
+              this.setState({ napEnd: x.toISOString() });
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -62,24 +64,22 @@ class App extends Component {
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you get into bed?</ControlLabel>
-          <TimePicker
-            showSecond={true}
+          <Datetime
             className="bedTime"
-            onChange={value =>
-              this.setState({ bedTime: value.format("HH:mm:ss") })}
+            onChange={x => this.setState({ bedTime: x.toISOString() })}
           />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you try to go to sleep?</ControlLabel>
-          <TimePicker
-            showSecond={true}
+          <Datetime
             className="sleepTime"
-            onChange={value =>
-              this.setState({ sleepTime: value.format("HH:mm:ss") })}
+            onChange={x => this.setState({ sleepTime: x.toISOString() })}
           />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>How long did it take you to fall asleep?</ControlLabel>
+          <ControlLabel>
+            How long did it take you to fall asleep(hh:mm:ss)?
+          </ControlLabel>
           <TimePicker
             showSecond={true}
             className="sleepAttemptDuration"
@@ -92,26 +92,24 @@ class App extends Component {
           <TimePicker
             showSecond={true}
             className="sleepDuration"
+            onChange={value =>
+              this.setState({ sleepDuration: value.format("HH:mm:ss") })}
           />
-        </FormGroup>
+          </FormGroup>
         <FormGroup>
           <ControlLabel>What time was your final awakening?</ControlLabel>
-          <TimePicker
-            showSecond={true}
+          <Datetime
             className="awakeTime"
-            onChange={value =>
-              this.setState({ awakeTime: value.format("HH:mm:ss") })}
+            onChange={x => this.setState({ awakeTime: x.toISOString() })}
           />
         </FormGroup>
         <FormGroup>
           <ControlLabel>
             What time did you get out of bed for the day?
           </ControlLabel>
-          <TimePicker
-            showSecond={true}
+          <Datetime
             className="outOfBedTime"
-            onChange={value =>
-              this.setState({ outOfBedTime: value.format("HH:mm:ss") })}
+            onChange={x => this.setState({ outOfBedTime: x.toISOString() })}
           />
         </FormGroup>
         <FormGroup>
