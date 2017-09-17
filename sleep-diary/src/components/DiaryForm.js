@@ -9,27 +9,66 @@ import {
 import moment from "moment";
 import "rc-time-picker/assets/index.css";
 import TimePicker from "rc-time-picker";
-
 import Datetime from "react-datetime";
 import "../styles/index.css";
 import "../styles/react-datetime.css";
 
-class App extends Component {
+class DiaryForm extends Component {
   constructor() {
     super();
-
+    // this.state = {
+    //   napStart: "",
+    //   napEnd: "",
+    //   date: moment().toISOString(),
+    //   bedTime: "",
+    //   sleepTime: "",
+    //   sleepDuration: "",
+    //   sleepAttemptDuration: "",
+    //   awakeTime: "",
+    //   outOfBedTime: "",
+    //   comment: ""
+    // };
+    console.log(moment().format('YYYY-MM-DD'));
     this.state = {
-      napStart: "",
-      napEnd: "",
-      date: moment().toISOString(),
-      bedTime: "",
-      sleepTime: "",
-      sleepDuration: "",
-      sleepAttemptDuration: "",
-      awakeTime: "",
-      outOfBedTime: "",
-      comment: ""
+      nap: {
+        startTime: "2017-09-17T07:00:00.000Z",
+        endTime: "2017-09-18T07:00:00.000Z"
+      },
+      date: moment().format('YYYY-MM-DD'),
+      bedTime: "2017-09-18T07:00:00.000Z",
+      sleepTime: "2017-09-19T07:00:00.000Z",
+      sleepDuration: "01:00:10",
+      sleepAttemptDuration: "01:00:10",
+      awakeTime: "2017-09-17T07:00:00.000Z",
+      awakeFrequency: 5,
+      outOfBedTime: "2017-09-17T07:00:00.000Z",
+      comment: "yolo"
     };
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    console.log('sending data ', this.state);
+
+    const formData = Object.assign({}, this.state);
+    const nap = { startTime: this.state.napStart, endTime: this.state.napEnd };
+    delete formData.napStart;
+    delete formData.napEnd;
+    formData.nap = nap;
+
+    fetch("http://localhost:8000/diaries", {
+      method: "POST",
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state) })
+    .then((response) => {
+      console.log(response);
+      if (response.status === 201) {
+        console.log(' created ');
+      }
+    })
   }
 
   render() {
@@ -95,6 +134,14 @@ class App extends Component {
               this.setState({ sleepDuration: value.format("HH:mm:ss") })}
           />
           </FormGroup>
+          <FormGroup>
+            <ControlLabel>How many times awaek?</ControlLabel>
+            <FormControl
+              className="awakeFrequency"
+              type="number"
+              onChange={e => this.setState({ awakeFrequency: e.target.value })}
+            />
+          </FormGroup>
         <FormGroup>
           <ControlLabel>What time was your final awakening?</ControlLabel>
           <Datetime
@@ -115,10 +162,10 @@ class App extends Component {
           <ControlLabel>Comments (if applicable)</ControlLabel>
           <FormControl className="comments" type="text" />
         </FormGroup>
-        <Button onClick={e => console.log(this.state)}>Submit</Button>
+        <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
       </Form>
     );
   }
 }
 
-export default App;
+export default DiaryForm;

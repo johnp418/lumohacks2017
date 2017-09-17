@@ -22,6 +22,7 @@ class DiaryViewSet(viewsets.ViewSet):
 
 	def create(self, request):
 		serializer = DiarySerializer(data=request.data)
+		print('creating diary')
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,0 +1,35 @@
+body {
+  text-align: center;
+  padding: 5%;
+  font-family: Arial;
+}
+
+.control-label {
+  margin-right: 20px;
+}
+
+.rdt {
+  display: inline-block;
+  width: 160px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.rc-time-picker-input {
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  font-size: 14px;
+  height: 34px;
+}
+
+.medication {
+  width: 400px;
+  display: inline-block;
+}
+
+.comments {
+  width: 500px;
+  height: 100px;
+  display: inline-block;
+}

@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Link, Redirect, withRouter} from 'react-router-dom
 import ReactDataGrid from 'react-data-grid';
 import * as d3 from 'd3';
 import { LineChart } from 'react-d3-basic';
+import DiaryForm from './components/DiaryForm';
 
 // const config = {
 //   apiKey: "AIzaSyDKzNLPprgv5CKpqM75hJODD2mVNZOSrTo",
@@ -293,6 +294,7 @@ class App extends Component {
         <Navbar></Navbar>
         <Route exact path="/" component={Welcome}/>
         <Route path="/login" component={LoginPage}/>
+        <Route path="/form" component={DiaryForm}/>
         {/* <PrivateRoute path='/entry' component={Entry}/> */}
         <PrivateRoute path="/diary" component={DiaryTable}/>
         <PrivateRoute path="/chart" component={Chart}/>
