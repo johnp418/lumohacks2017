@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Form, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+
+import moment from "moment";
+import 'rc-time-picker/assets/index.css';
+import TimePicker from "rc-time-picker";
+
 import "../styles/index.css";
+import "../styles/react-datetime.css";
 
 class App extends Component {
   constructor() {
@@ -20,49 +26,85 @@ class App extends Component {
 
   render() {
     return (
-      <Form inline>
+      <Form>
         <FormGroup>
           <ControlLabel>
             Enter the time and duration of any naps you took today
           </ControlLabel>
-          <FormControl type="text" />
+          Start:
+          <TimePicker
+            showSecond={true}
+            defaultValue={moment()}
+            className="nap-start"
+          />
+          End
+          <TimePicker
+            showSecond={true}
+            defaultValue={moment()}
+            className="nap-end"
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>
             Did you take any medication to help you sleep? If so, what did you
             take and when?
           </ControlLabel>
-          <FormControl type="text" />
+          <FormControl className="medication" type="text" />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you get into bed?</ControlLabel>
-          <FormControl type="text" />
+            <TimePicker
+              showSecond={true}
+              defaultValue={moment()}
+              className="bedTime"
+            />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time did you try to go to sleep?</ControlLabel>
-          <FormControl type="text" />
+            <TimePicker
+              showSecond={true}
+              defaultValue={moment()}
+              className="sleepTime"
+            />
         </FormGroup>
         <FormGroup>
           <ControlLabel>How long did it take you to fall asleep?</ControlLabel>
-          <FormControl type="text" />
+            <TimePicker
+              showSecond={true}
+              defaultValue={moment()}
+              className="sleepAttemptDuration"
+            />
         </FormGroup>
         <FormGroup>
           <ControlLabel>In total, how long did you sleep?</ControlLabel>
-          <FormControl type="text" />
+            <TimePicker
+              showSecond={true}
+              defaultValue={moment()}
+              className="sleepDuration"
+            />
         </FormGroup>
         <FormGroup>
           <ControlLabel>What time was your final awakening?</ControlLabel>
-          <FormControl type="text" />
+            <TimePicker
+              showSecond={true}
+              defaultValue={moment()}
+              className="awakeTime"
+            />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>What time did you get out of bed for the day?</ControlLabel>
-          <FormControl type="text" />
+          <ControlLabel>
+            What time did you get out of bed for the day?
+          </ControlLabel>
+          <TimePicker
+            showSecond={true}
+            defaultValue={moment()}
+            className="outOfBedTime"
+          />
         </FormGroup>
         <FormGroup>
           <ControlLabel>Comments (if applicable)</ControlLabel>
-          <FormControl type="text" />
+          <FormControl className="comments" type="text" />
         </FormGroup>
-
       </Form>
     );
   }
